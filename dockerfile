@@ -43,7 +43,9 @@ COPY --from=builder /application/spring-boot-loader/ ./
 COPY --from=builder /application/snapshot-dependencies/ ./
 COPY --from=builder /application/application/ ./
 
-ENV JAVA_OPTS="-XX:TieredStopAtLevel=1 \
+ENV JAVA_OPTS="-Xms128m -Xmx256m \
+               -XX:+UseG1GC \
+               -XX:TieredStopAtLevel=1 \
                -Dspring.threads.virtual.enabled=true \
                -Dspring.main.lazy-initialization=true \
                -Dspring.data.jpa.repositories.bootstrap-mode=deferred"
