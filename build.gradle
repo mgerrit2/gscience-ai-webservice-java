@@ -14,20 +14,11 @@ java {
 	}
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
 repositories {
 	mavenCentral()
 	mavenLocal()
 	maven { url 'https://jitpack.io' }
 }
-
-def dl4j_version = '1.0.0-M2.1' // Check Maven Central for the latest stable version
-
 
 configurations.configureEach {
 	// Exclude conflicting logging implementations
@@ -38,18 +29,8 @@ configurations.configureEach {
 
 
 	resolutionStrategy {
-		// FORCE the version Spark needs to prevent the ATN Deserialization error
-		force 'org.antlr:antlr4-runtime:4.9.3'
-
 		// patch vunaribility
 		eachDependency { DependencyResolveDetails details ->
-			/*
-			if (details.requested.group == 'io.netty') {
-				details.useVersion '4.1.124.Final'
-				details.because 'Mitigate CVE-2025-55163 (Netty HTTP/2 vulnerability)'
-			}
-
-			 */
 			if (details.requested.group == 'org.apache.commons' && details.requested.name == 'commons-compress') {
 				details.useVersion '1.26.0'
 				details.because 'Mitigate CVE-2024-25710'
@@ -78,11 +59,6 @@ dependencies {
 
 	// springboot hot reload
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-	//************************************************************
-	//	// * Convert from en to samedif and onnx
-	//	//*************************************************************
-	//	implementation "org.nd4j:samediff-import-onnx:${dl4j_version}"*
 
 	//*************************************************************
 	// onnx
