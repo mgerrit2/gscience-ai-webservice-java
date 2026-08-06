@@ -1,0 +1,22 @@
+services:
+  gsience-ai:
+    build:
+      context: .
+      dockerfile: dockerfile
+    env_file:
+      - /home/mgerrit2/dev-ubuntu/software-projects-ubuntu/.env
+    ports:
+      - "8092:8092"  # Changed to expose 8080 to the host if needed
+      - "5005:5005"   # De debugger
+    extra_hosts:
+          - "host.docker.internal:host-gateway"
+    environment:
+      - SERVER_PORT=8092
+      # in plaats van in de Dockerfile ENTRYPOINT
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    volumes:
+      # Mount your local conf.d folder into Nginx
+      - /home/mgerrit2/dev-ubuntu/software-projects-ubuntu/nginx/conf.d:/etc/nginx/conf.d
+      # Mount your certs so Nginx can handle the mTLS handshake
+      - /home/mgerrit2/dev-ubuntu/software-projects-ubuntu/certs:/etc/nginx/certs
+    restart: always

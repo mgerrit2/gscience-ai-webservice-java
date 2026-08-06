@@ -1,0 +1,18 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Disable log to get clear result
+    <logger name="org.apache.spark" level="OFF" />
+    <logger name="org.sparkproject" level="OFF" />
+    <logger name="org.apache.hadoop" level="OFF" />
+    <logger name="breeze.optimize" level="OFF" />
+    -->
+
+    <root level="OFF">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
