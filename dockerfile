@@ -43,7 +43,7 @@ COPY --from=builder /application/spring-boot-loader/ ./
 COPY --from=builder /application/snapshot-dependencies/ ./
 COPY --from=builder /application/application/ ./
 
-ENV JAVA_OPTS="-Xms128m -Xmx256m \
+ENV JAVA_OPTS="-Xms256m -Xmx384m \
                -XX:+UseG1GC \
                -XX:TieredStopAtLevel=1 \
                -Dspring.threads.virtual.enabled=true \
