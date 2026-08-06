@@ -24,14 +24,9 @@ repositories {
 	mavenCentral()
 	mavenLocal()
 	maven { url 'https://jitpack.io' }
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 def dl4j_version = '1.0.0-M2.1' // Check Maven Central for the latest stable version
-//def dl4j_version = '1.0.0-rewrite' // Check Maven Central for the latest stable version
-def spark_version = '3.5.1'
-//def spark_version = '4.1.2'
 
 
 configurations.configureEach {
@@ -84,64 +79,6 @@ dependencies {
 	// springboot hot reload
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-
-	//*****************************************************************************
-	// * Handles resizing, cropping, padding, rotating, and flipping natively.
-	//*****************************************************************************
-	//implementation 'org.imgscalr:imgscalr-lib:4.2'
-
-	//*****************************************************************************
-	// * Lombok: prevent boilerplate
-	//*****************************************************************************
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
-
-
-	//*************************************************************
-	// * deeplearning4j: implementation
-	//*************************************************************
-/*
-	implementation "org.deeplearning4j:deeplearning4j-zoo:${dl4j_version}"
-
- */
-
-	// For DataSetIterator, IrisDataSetIterator etc.
-	implementation "org.deeplearning4j:deeplearning4j-datasets:${dl4j_version}" // Must match DL4J version
-
-	// Add this line to include ParallelWrapper
-	implementation "org.deeplearning4j:deeplearning4j-parallel-wrapper:${dl4j_version}"
-
-	// GPU support version 11.6
-	//implementation "org.nd4j:nd4j-cuda-11.6-platform:${dl4j_version}"
-
-	// Pulls in the native CUDA runtime binaries for Windows x86_64 linking
-	//implementation 'org.bytedeco:cuda-platform-redist:11.6-8.3-1.5.7'
-
-	/* native cpu use*/
-	implementation "org.nd4j:nd4j-native-platform:${dl4j_version}" // For CPU performance//
-	testImplementation "org.nd4j:nd4j-native-platform:${dl4j_version}" // For CPU performance
-
-
-	// For datasets like IrisDataSetIterator, you typically need deeplearning4j-datasets
-	implementation "org.deeplearning4j:deeplearning4j-ui:${dl4j_version}" // Often useful for training monitoring
-
-	implementation "org.deeplearning4j:deeplearning4j-utility-iterators:${dl4j_version}" // For IrisDataSetIterator
-
-	// Deeplearning4j Core
-	implementation "org.deeplearning4j:deeplearning4j-core:${dl4j_version}"
-
-	implementation "org.nd4j:nd4j-api:${dl4j_version}"
-
-	// DataVec (for data loading and preprocessing)
-	implementation "org.datavec:datavec-api:${dl4j_version}"
-
-	// The IrisDataSetIterator is often in deeplearning4j-datasets or deeplearning4j-datavec-iterators
-	implementation "org.deeplearning4j:deeplearning4j-datavec-iterators:${dl4j_version}"
-
-	// Apache OpenNLP Core Library
-	implementation 'org.apache.opennlp:opennlp-tools:2.3.1' // Use the latest stable version
-
 	//************************************************************
 	//	// * Convert from en to samedif and onnx
 	//	//*************************************************************
@@ -152,81 +89,10 @@ dependencies {
 	//*************************************************************
 	implementation 'com.microsoft.onnxruntime:onnxruntime:1.18.0'
 
-	// custom logging
-	//implementation 'org.gscience.log:gscience:1.0'
-	//testImplementation 'org.gscience.log:gscience:1.0'
-
-	implementation("org.jfree:jfreechart:1.5.6")
-	implementation 'org.jfree:jcommon:1.0.24'
-
-
-	testImplementation('org.projectlombok:lombok')
-
-	// https://github.com/langchain4j
-	implementation("dev.langchain4j:langchain4j-core:1.10.0")
-
-	// Jlama
-	// https://docs.langchain4j.dev/integrations/language-models/jlama
-	// export JDK_JAVA_OPTIONS="--add-modules jdk.incubator.vector --enable-preview"
-	implementation 'dev.langchain4j:langchain4j:1.10.0'
-	implementation 'dev.langchain4j:langchain4j-jlama:1.18.0-beta28'
-
-	// spring AI
-	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0")
-	// Replace the following with the specific module dependencies (e.g., spring-ai-openai) or starter modules (e.g., spring-ai-starter-model-openai) that you wish to use
-	implementation 'org.springframework.ai:spring-ai-openai'
-
 	//*************************************************************
 	// * image operations
 	//*************************************************************
 	implementation 'net.coobird:thumbnailator:0.4.20'
-
-	//*************************************************************
-	// * Spark
-	//*************************************************************
-	implementation("org.apache.spark:spark-core_2.13:${spark_version}"){
-		exclude group: 'jakarta.servlet', module: 'jakarta.servlet-api'
-		exclude group: 'javax.servlet', module: 'javax.servlet-api'
-		exclude group: 'com.fasterxml.jackson.core'
-	}
-
-	/// Spark SQL is Apache Spark's module for working with structured data based on DataFrames.
-	compileOnly("org.apache.spark:spark-sql_2.13:${spark_version}"){
-		exclude group: 'com.fasterxml.jackson.core'
-	}
-
-	/// The machine learning library for Apache Spark, providing scalable algorithms and tools for ML pipelines.
-	compileOnly("org.apache.spark:spark-mllib_2.13:${spark_version}") {
-		exclude group: 'com.fasterxml.jackson.core'
-	}
-
-	/// Spark Project GraphX
-	implementation("org.apache.spark:spark-graphx_2.13:${spark_version}")
-
-
-	/// Spark Project YARN
-	compileOnly("org.apache.spark:spark-yarn_2.13:${spark_version}")
-
-	/// Spark Project Shuffle Streaming Service
-	implementation("org.apache.spark:spark-network-shuffle_2.13:${spark_version}")
-
-	compileOnly("org.apache.spark:spark-streaming_2.13:${spark_version}")
-
-	// Use the appropriate streaming flume connector matching your ecosystem version
-	// (Note: If using legacy 2.4.x flume connectors, consider shading or migrating to Kafka for Spark 3.5+)
-	/*
-	implementation("org.apache.spark:spark-streaming-flume_2.12:2.4.8") {
-		exclude group: 'org.apache.spark', module: 'spark-core_2.12'
-		exclude group: 'org.apache.spark', module: 'spark-streaming_2.12'
-	}
-*/
-	
-	// Apache Commons CSV Parser
-	implementation 'org.apache.commons:commons-csv:1.14.1'
-
-	// Force a consistent Netty version that contains NioIoHandler
-	implementation platform('io.netty:netty-bom:4.1.124.Final')
-	implementation 'io.netty:netty-all'
 
 	//*****************************************************************************
 	//*****************************************************************************
@@ -235,54 +101,12 @@ dependencies {
 	//*****************************************************************************
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	testImplementation platform('io.netty:netty-bom:4.1.100.Final')
-	testImplementation 'io.netty:netty-all'
-
-	//*****************************************************************************
-	// * Spark
-	//*****************************************************************************
-	// Add this to provide the missing legacy classes Spark needs for its UI
-	implementation 'javax.servlet:javax.servlet-api:4.0.1'
-	testImplementation("org.apache.spark:spark-core_2.13:${spark_version}")
-	testImplementation("org.apache.spark:spark-sql_2.13:${spark_version}")
-	testImplementation("org.apache.spark:spark-mllib_2.13:${spark_version}")
-	testImplementation("org.apache.spark:spark-graphx_2.13:${spark_version}")
 
 	//*****************************************************************************
 	// * springboot:test implementation
 	//*****************************************************************************
 	testImplementation 'org.springframework.boot:spring-boot-starter-web'
-
-	//*************************************************************
-	// * deeplearning4j:test implementation
-	//*************************************************************
-	testImplementation ("org.deeplearning4j:deeplearning4j-core:${dl4j_version}")
-	testImplementation "org.deeplearning4j:deeplearning4j-datasets:${dl4j_version}" // Must match DL4J version
-	testImplementation "org.deeplearning4j:deeplearning4j-parallel-wrapper:${dl4j_version}"
-	testImplementation "org.nd4j:nd4j-cuda-11.6-platform:${dl4j_version}"
-	testImplementation 'org.bytedeco:cuda-platform-redist:11.6-8.3-1.5.7'
-	testImplementation "org.deeplearning4j:deeplearning4j-ui:${dl4j_version}" // Often useful for training monitoring
-	testImplementation "org.deeplearning4j:deeplearning4j-utility-iterators:${dl4j_version}" // For IrisDataSetIterator
-	testImplementation "org.datavec:datavec-api:${dl4j_version}"
-	testImplementation "org.deeplearning4j:deeplearning4j-datavec-iterators:${dl4j_version}"
-	testImplementation 'org.apache.opennlp:opennlp-tools:2.3.1' // Use the latest stable version
-
-	//*****************************************************************************
-	// * Lombok:test prevent boilerplate
-	//*****************************************************************************
-	testImplementation 'org.projectlombok:lombok'
-
-	//*****************************************************************************
-	// * jfreechart:test implementation
-	//*****************************************************************************
-	testImplementation("org.jfree:jfreechart:1.5.6")
-	testImplementation 'org.jfree:jcommon:1.0.24'
-
-
 
 }
 
@@ -306,8 +130,6 @@ bootRun {
 
 tasks.named('test') {
 	useJUnitPlatform()
-	systemProperty "org.nd4j.backend.priority", "100" // Higher priority for CUDA
-	systemProperty "org.nd4j.backend.name", "org.nd4j.linalg.jcublas.JCublasBackend"
 	jvmArgs([
 			"-Dorg.bytedeco.javacpp.maxbytes=8G",        // Total native memory limit
 			"-Dorg.bytedeco.javacpp.maxphysicalbytes=16G", // Total system memory limit (Heap + Native)
