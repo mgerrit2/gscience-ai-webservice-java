@@ -4,6 +4,6 @@ services:
       context: .
       dockerfile: dockerfile
     ports:
-      - "8092:8092"  # Changed to expose 8080 to the host if needed
+      - "8092:8080"  # Changed to expose 8080 to the host if needed
       - "5005:5005"   # De debugger
     restart: always
