@@ -88,7 +88,7 @@ dependencies {
 	//*****************************************************************************
 	// * Handles resizing, cropping, padding, rotating, and flipping natively.
 	//*****************************************************************************
-	implementation 'org.imgscalr:imgscalr-lib:4.2'
+	//implementation 'org.imgscalr:imgscalr-lib:4.2'
 
 	//*****************************************************************************
 	// * Lombok: prevent boilerplate
@@ -101,8 +101,10 @@ dependencies {
 	//*************************************************************
 	// * deeplearning4j: implementation
 	//*************************************************************
-
+/*
 	implementation "org.deeplearning4j:deeplearning4j-zoo:${dl4j_version}"
+
+ */
 
 	// For DataSetIterator, IrisDataSetIterator etc.
 	implementation "org.deeplearning4j:deeplearning4j-datasets:${dl4j_version}" // Must match DL4J version
@@ -111,15 +113,15 @@ dependencies {
 	implementation "org.deeplearning4j:deeplearning4j-parallel-wrapper:${dl4j_version}"
 
 	// GPU support version 11.6
-	implementation "org.nd4j:nd4j-cuda-11.6-platform:${dl4j_version}"
+	//implementation "org.nd4j:nd4j-cuda-11.6-platform:${dl4j_version}"
 
 	// Pulls in the native CUDA runtime binaries for Windows x86_64 linking
-	implementation 'org.bytedeco:cuda-platform-redist:11.6-8.3-1.5.7'
+	//implementation 'org.bytedeco:cuda-platform-redist:11.6-8.3-1.5.7'
 
-	/* native cpu use
-	implementation "org.nd4j:nd4j-native-platform:${dl4jVersion}" // For CPU performance//
-	testImplementation "org.nd4j:nd4j-native-platform:${dl4jVersion}" // For CPU performance
-	*/
+	/* native cpu use*/
+	implementation "org.nd4j:nd4j-native-platform:${dl4j_version}" // For CPU performance//
+	testImplementation "org.nd4j:nd4j-native-platform:${dl4j_version}" // For CPU performance
+
 
 	// For datasets like IrisDataSetIterator, you typically need deeplearning4j-datasets
 	implementation "org.deeplearning4j:deeplearning4j-ui:${dl4j_version}" // Often useful for training monitoring
@@ -140,10 +142,10 @@ dependencies {
 	// Apache OpenNLP Core Library
 	implementation 'org.apache.opennlp:opennlp-tools:2.3.1' // Use the latest stable version
 
-	//*************************************************************
-	// * Convert from en to samedif and onnx
-	//*************************************************************
-	implementation "org.nd4j:samediff-import-onnx:${dl4j_version}"
+	//************************************************************
+	//	// * Convert from en to samedif and onnx
+	//	//*************************************************************
+	//	implementation "org.nd4j:samediff-import-onnx:${dl4j_version}"*
 
 	//*************************************************************
 	// onnx
