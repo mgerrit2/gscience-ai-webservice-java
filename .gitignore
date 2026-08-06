@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Exclude all .onnx model files anywhere in the project
+*.onnx
+
