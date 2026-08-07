@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -52,21 +53,20 @@ public class ResnetService {
 
             this.env = OrtEnvironment.getEnvironment();
 
-            // Load model from classpath (e.g., src/main/resources/models/resnet101.onnx)
-            try (InputStream modelStream = getClass().getClassLoader().getResourceAsStream("models/resnet101.onnx")) {
-                if (modelStream == null) {
-                    throw new IllegalArgumentException("ONNX model file not found at: " + modelPath);
-                }
-                byte[] modelBytes = modelStream.readAllBytes();
-
-                OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-                options.setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT);
-
-                this.session = env.createSession(modelBytes, options);
-
-                log.info("ONNX ResNet-101 session initialized successfully from classpath!");
-
+            ClassPathResource resource = new ClassPathResource(modelPath);
+            if (!resource.exists()) {
+                throw new IllegalArgumentException("ONNX model file not found at: " + modelPath);
             }
+
+            // Loads the model directly via file path without allocating a byte[] in JVM memory
+            String absolutePath = resource.getFile().getAbsolutePath();
+
+            OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+            options.setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT);
+
+            this.session = env.createSession(absolutePath, options);
+
+            log.info("ONNX ResNet-101 session initialized successfully from classpath!");
 
             // 2. Load ImageNet Labels
             try (InputStream labelStream = getClass().getClassLoader().getResourceAsStream(labelsPath)) {

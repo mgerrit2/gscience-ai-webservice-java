@@ -18,8 +18,7 @@ RUN cat gradlew | tr -d '\r' > gradlew.linux && \
 COPY src src
 
 # 4. Compile fat JAR using Gradle caching
-RUN --mount=type=cache,target=/root/.m2 \
-    --mount=type=cache,target=/root/.gradle \
+RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew clean bootJar --no-daemon --no-configuration-cache
 
 # 5. Extract layers for Spring Boot optimize extraction

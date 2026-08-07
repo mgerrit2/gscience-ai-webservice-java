@@ -3,13 +3,15 @@
 ## Purpose 
 Springboot backend to learn programming in AI
 
-### Webservice exposed UI
-## Swagger
+## Webservice exposed UI
+### swagger
 http://localhost:8092/swagger-ui/index.html
 
-# Actuators
-## info
+## Actuators
+### info
 http://localhost:8092/actuator/info
 
-## Health
+### Health
 http://localhost:8092/actuator/health
+
+
